@@ -1,0 +1,59 @@
+6 Days 6 Companies 30 day Challenge
+
+# Microsoft
+
+Q1 : Evaluate Reverse Polish Notation
+Statement: 
+You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
+Evaluate the expression. Return an integer that represents the value of the expression.
+
+Note that:
+The valid operators are '+', '-', '*', and '/'.
+Each operand may be an integer or another expression.
+The division between two integers always truncates toward zero.
+There will not be any division by zero.
+The input represents a valid arithmetic expression in a reverse polish notation.
+The answer and all the intermediate calculations can be represented in a 32-bit integer.
+
+
+My Java solution using stack
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<String> stack = new Stack<>();
+        int i = 1;
+        stack.push(tokens[0]);
+        while(i < tokens.length){
+            if(tokens[i].equals("*") || tokens[i].equals("/") || tokens[i].equals("+") || tokens[i].equals("-")){
+                int n2 = Integer.parseInt(stack.pop());
+                int n1 = Integer.parseInt(stack.pop());
+                // System.out.println(stack);
+                String op = tokens[i];
+                if(op.equals("-")){
+                    int cal = n1 - n2;
+                    stack.push(String.valueOf(cal));
+                }else if(op.equals("+")){
+                    int cal = n1+n2;
+                    stack.push(String.valueOf(cal));
+                }else if(op.equals("*")){
+                    int cal = n1*n2;
+                    stack.push(String.valueOf(cal));
+                }else{
+                    if(n2 == 0){
+                        stack.push(String.valueOf(Integer.MAX_VALUE)); 
+                    }else{
+                        int cal = n1/n2;
+                        stack.push(String.valueOf(cal));
+                    }
+                    
+                }
+                
+            }else{
+                stack.push(tokens[i]);
+            }
+            i++;
+        }
+        // System.out.println(stack);
+        return Integer.parseInt(stack.pop());
+    }
+}
